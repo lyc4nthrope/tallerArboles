@@ -13,7 +13,7 @@ public class ServiceBinaryTree {
 
     private final BinaryTree tree = new BinaryTree();
 
-    public boolean estaVacio() {
+    public boolean isEmpty(){
         return tree.root == null;
     }
 
