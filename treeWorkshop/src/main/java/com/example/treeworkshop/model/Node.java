@@ -1,5 +1,10 @@
 package com.example.treeworkshop.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Node {
     public int data;
     public Node left;

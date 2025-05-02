@@ -1,7 +1,10 @@
 package com.example.treeworkshop.controller;
 
+import com.example.treeworkshop.model.BinaryTree;
+import com.example.treeworkshop.model.Node;
 import com.example.treeworkshop.service.ServiceBinaryTree;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +13,17 @@ import java.util.List;
 @RequestMapping("/arbol")
 @CrossOrigin(origins = "*") // Permite que el frontend se conecte sin bloqueos
 public class TreeController {
+    private final BinaryTree tree = new  BinaryTree();
 
     @Autowired
     private ServiceBinaryTree serviceBinaryTree;
+
+    //para el dibujo pero no sirve todavia toca mirar el html
+    @GetMapping("/estructura")
+    public ResponseEntity<Node> getStructure() {
+        Node root = tree.root;
+        return ResponseEntity.ok(root);
+    }
 
     // 1. verifica si esta vacio el arbol
     @GetMapping("/estaVacio")

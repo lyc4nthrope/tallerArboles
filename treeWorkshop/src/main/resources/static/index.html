@@ -5,41 +5,178 @@
     <title>Binary Tree Workshop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilo del contenedor del árbol */
+        #tree-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            overflow-x: auto;
+        }
+
+        .node {
+            text-align: center;
+            position: relative;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 40px;
+        }
+
+        .children {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .connector {
+            position: absolute;
+            width: 2px;
+            background-color: #555;
+        }
+
+        .connector.vertical {
+            height: 20px;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .connector.horizontal {
+            height: 2px;
+            top: 100%;
+        }
+
+        /* Mejoras generales */
+        #result {
+            min-height: 50px;
+        }
+
+        .btn-group-custom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+    </style>
 </head>
 <body class="bg-light">
 
-<div class="container mt-5">
+<div class="container mt-4">
     <h1 class="text-center mb-4">Binary Tree Workshop</h1>
 
-    <div class="mb-3">
-        <input type="number" id="inputData" class="form-control" placeholder="Ingresa un numero">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <input type="number" id="inputData" class="form-control mb-2" placeholder="Ingresa un numero">
+
+            <div class="btn-group-custom">
+                <button class="btn btn-success" onclick="addRoot()">Add Data</button>
+                <button class="btn btn-danger" onclick="eliminate()">Delete Data</button>
+                <button class="btn btn-secondary" onclick="isEmpty()">Is Empty?</button>
+                <button class="btn btn-primary" onclick="exist()">Does Data Exist?</button>
+                <button class="btn btn-info" onclick="inOrderRout()">Inorder</button>
+                <button class="btn btn-info" onclick="preOrderRout()">Preorder</button>
+                <button class="btn btn-info" onclick="postOrderRout()">Postorder</button>
+                <button class="btn btn-warning" onclick="weight()">Weight</button>
+                <button class="btn btn-warning" onclick="heigth()">Height</button>
+                <button class="btn btn-warning" onclick="level()">Level</button>
+                <button class="btn btn-dark" onclick="countLeaves()">Count Leaves</button>
+                <button class="btn btn-dark" onclick="lower()">Get Min</button>
+                <button class="btn btn-dark" onclick="higher()">Get Max</button>
+                <button class="btn btn-dark" onclick="amplitude()">Amplitude</button>
+                <button class="btn btn-outline-danger" onclick="eliminateTree()">Delete Tree</button>
+            </div>
+
+            <div id="result" class="alert alert-info mt-3" role="alert">El resultado aparecerá aquí</div>
+        </div>
+
+        <div class="col-md-8">
+            <h5 class="text-center">Visualización del Árbol</h5>
+            <div id="tree-container"></div>
+        </div>
     </div>
-
-    <div class="d-grid gap-2 mb-4">
-        <button class="btn btn-success" onclick="addRoot()">Add Data</button>
-        <button class="btn btn-danger" onclick="eliminate()">Delete Data</button>
-        <button class="btn btn-secondary" onclick="isEmpty()">Is Empty?</button>
-        <button class="btn btn-primary" onclick="exist()">Does Data Exist?</button>
-
-        <button class="btn btn-info" onclick="inOrderRout()">Inorder Traversal</button>
-        <button class="btn btn-info" onclick="preOrderRout()">Preorder Traversal</button>
-        <button class="btn btn-info" onclick="postOrderRout()">Postorder Traversal</button>
-
-        <button class="btn btn-warning" onclick="weight()">Get Weight</button>
-        <button class="btn btn-warning" onclick="heigth()">Get Height</button>
-        <button class="btn btn-warning" onclick="level()">Get Level</button>
-
-        <button class="btn btn-dark" onclick="countLeaves()">Count Leaves</button>
-        <button class="btn btn-dark" onclick="lower()">Get Min</button>
-        <button class="btn btn-dark" onclick="higher()">Get Max</button>
-        <button class="btn btn-dark" onclick="amplitude()">Print Amplitude</button>
-
-        <button class="btn btn-outline-danger" onclick="eliminateTree()">Delete Tree</button>
-    </div>
-
-    <div id="result" class="alert alert-info" role="alert">El resultado aparecerá aquí</div>
 </div>
 
 <script src="script.js"></script>
+<script>
+    const treeContainer = document.getElementById("tree-container");
+
+    function createNodeElement(value) {
+        const nodeEl = document.createElement('div');
+        nodeEl.className = 'node';
+        nodeEl.textContent = value;
+        return nodeEl;
+    }
+
+    function renderTree(treeData) {
+        treeContainer.innerHTML = '';
+
+        function buildTree(node) {
+            if (!node) return null;
+
+            const nodeEl = createNodeElement(node.value);
+
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            wrapper.style.display = 'inline-block';
+            wrapper.style.textAlign = 'center';
+
+            wrapper.appendChild(nodeEl);
+
+            const childrenContainer = document.createElement('div');
+            childrenContainer.className = 'children';
+
+            const left = buildTree(node.left);
+            const right = buildTree(node.right);
+
+            if (left) childrenContainer.appendChild(left);
+            if (right) childrenContainer.appendChild(right);
+
+            if (left || right) wrapper.appendChild(childrenContainer);
+
+            return wrapper;
+        }
+
+        const rootNode = buildTree(treeData);
+        if (rootNode) {
+            treeContainer.appendChild(rootNode);
+        } else {
+            treeContainer.textContent = 'El árbol está vacío.';
+        }
+    }
+
+    function fetchTree() {
+        fetch(`${apiURL}/estructura`)
+            .then(response => response.json())
+            .then(data => {
+                renderTree(data);
+            });
+    }
+
+    const originalAddRoot = addRoot;
+    addRoot = function() {
+        originalAddRoot();
+        setTimeout(fetchTree, 500);
+    };
+
+    const originalEliminate = eliminate;
+    eliminate = function() {
+        originalEliminate();
+        setTimeout(fetchTree, 500);
+    };
+
+    const originalEliminateTree = eliminateTree;
+    eliminateTree = function() {
+        originalEliminateTree();
+        setTimeout(fetchTree, 500);
+    };
+
+    // Cargar visualización inicial
+    fetchTree();
+</script>
+
 </body>
 </html>
