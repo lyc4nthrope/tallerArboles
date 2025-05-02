@@ -1,7 +1,5 @@
 package com.example.treeworkshop.controller;
 
-
-import com.example.treeworkshop.dto.DatoRequest;
 import com.example.treeworkshop.service.ServiceBinaryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,26 +8,99 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/arbol")
-@CrossOrigin(origins = "*")  // Permite que el frontend se conecte sin problemas
+@CrossOrigin(origins = "*") // Permite que el frontend se conecte sin bloqueos
 public class TreeController {
 
     @Autowired
     private ServiceBinaryTree serviceBinaryTree;
 
+    // 1. verifica si esta vacio el arbol
     @GetMapping("/estaVacio")
-    public boolean estaVacio() {
-        return serviceBinaryTree.estaVacio();
+    public boolean isEmpty() {
+        return serviceBinaryTree.isEmpty();
     }
 
+    // 2. Agregar dato al arbol
     @PostMapping("/agregar")
-    public void agregar(@RequestBody DatoRequest request) {
-        serviceBinaryTree.addRoot(request.getData());
+    public void addRoot(@RequestParam int dato) {
+        serviceBinaryTree.addRoot(dato);
     }
 
-    @GetMapping("/recorrerInorden")
-    public List<Integer> recorrerInorden() {
-        return serviceBinaryTree.routInOrder();
+    // 3. Inorden
+    @GetMapping("/inorden")
+    public List<Integer> inOrderRout() {
+        return serviceBinaryTree.inOrderRout();
     }
 
-    // 🚨 Aquí luego agregamos más endpoints (preorden, postorden, eliminar, etc.)
+    // 4. Preorden
+    @GetMapping("/preorden")
+    public List<Integer> preOrderRout() {
+        return serviceBinaryTree.preOrderRout();
+    }
+
+    // 5. Postorden
+    @GetMapping("/postorden")
+    public List<Integer> postOrderRout() {
+        return serviceBinaryTree.postOrderRout();
+    }
+
+    // 6. verifica si esta el dato
+    @GetMapping("/existe")
+    public boolean exist(@RequestParam int dato) {
+        return serviceBinaryTree.exist(dato);
+    }
+
+    // 7. Obtener peso del arbol, osea todos los nodos
+    @GetMapping("/peso")
+    public int weight() {
+        return serviceBinaryTree.getWeight();
+    }
+
+    // 8. Obtener altura del arbol
+    @GetMapping("/altura")
+    public int heigth() {
+        return serviceBinaryTree.getHeigth();
+    }
+
+    // 9. Obtener nivel de un dato en especifico
+    @GetMapping("/nivel")
+    public int level(@RequestParam int dato) {
+        return serviceBinaryTree.getLevel(dato);
+    }
+
+    // 10. Contar las hojas del arbol
+    @GetMapping("/contarHojas")
+    public int countLeaves() {
+        return serviceBinaryTree.countLeaves();
+    }
+
+    // 11. Obtener menor dato de una raiz
+    @GetMapping("/menor")
+    public Integer lower() {
+        return serviceBinaryTree.getLower();
+    }
+
+    // 12. Obtener mayor dato de una raiz
+    @GetMapping("/mayor")
+    public Integer higher() {
+        return serviceBinaryTree.getHigher();
+    }
+
+    // 13. Imprimir amplitud osea por niveles  0 1 2 3
+    @GetMapping("/amplitud")
+    public List<Integer> amplitude() {
+        return serviceBinaryTree.printAmplitude();
+    }
+
+    // 14. Eliminar dato del arbol
+    @DeleteMapping("/eliminar")
+    public void eliminate(@RequestParam int dato) {
+        serviceBinaryTree.eliminate(dato);
+    }
+
+    // 15. Borrar completo el arbol
+    @DeleteMapping("/borrar")
+    public void eliminateTree() {
+        serviceBinaryTree.eliminateTree();
+    }
 }

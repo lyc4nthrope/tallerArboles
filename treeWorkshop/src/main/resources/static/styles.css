@@ -1,0 +1,21 @@
+body {
+    background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+}
+
+h1 {
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #888;
+}
+
+button {
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+#resultado {
+    font-size: 1.1rem;
+    min-height: 60px;
+}
