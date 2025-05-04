@@ -2,7 +2,7 @@ package com.example.treeworkshop.service;
 
 
 import com.example.treeworkshop.model.BinaryTree;
-import com.example.treeworkshop.model.Node;
+import com.example.treeworkshop.model.TreeNode;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class ServiceBinaryTree {
         return existRecursive(tree.root, data);
     }
 
-    private boolean existRecursive(Node current, int data) {
+    private boolean existRecursive(TreeNode current, int data) {
         if (current == null) {
             return false;
         }
@@ -36,14 +36,17 @@ public class ServiceBinaryTree {
     }
 
     public void addRoot(int data) {
+
         tree.root = addRecursive(tree.root,  data);
     }
 
-    private Node addRecursive(Node current, int data) {
+    private TreeNode addRecursive(TreeNode current, int data) {
         if (current == null) {
-            return new Node(data);
+            return new TreeNode(data);
         }
-
+        if (data == current.data) {
+            return current;
+        }
         if (data < current.data) {
             current.left = addRecursive(current.left, data);
         } else if (data > current.data) {
@@ -59,11 +62,11 @@ public class ServiceBinaryTree {
         return result;
     }
 
-    private void inOrderRecursive(Node node, List<Integer> result) {
+    private void inOrderRecursive(TreeNode node, List<Integer> result) {
         if (node!= null) {
             inOrderRecursive(node.left, result);
             result.add(node.data);
-            inOrderRecursive(node.left, result);
+            inOrderRecursive(node.right, result);
         }
     }
 
@@ -73,11 +76,12 @@ public class ServiceBinaryTree {
         return result;
     }
 
-    private void preOrderRecursive(Node node, List<Integer> result) {
+    private void preOrderRecursive(TreeNode node, List<Integer> result) {
         if (node != null) {
             result.add(node.data);
             preOrderRecursive(node.left, result);
             preOrderRecursive(node.right, result);
+
         }
     }
 
@@ -87,7 +91,7 @@ public class ServiceBinaryTree {
         return result;
     }
 
-    private void postOrderRecursive(Node node, List<Integer> result) {
+    private void postOrderRecursive(TreeNode node, List<Integer> result) {
         if (node != null) {
             postOrderRecursive(node.left, result);
             postOrderRecursive(node.right, result);
@@ -99,7 +103,7 @@ public class ServiceBinaryTree {
         return countNodes(tree.root);
     }
 
-    private int countNodes(Node node) {
+    private int countNodes(TreeNode node) {
         if (node == null) return 0;
         return 1 + countNodes(node.left) + countNodes(node.right);
     }
@@ -108,7 +112,7 @@ public class ServiceBinaryTree {
         return calculateHeigth(tree.root);
     }
 
-    private int calculateHeigth(Node node) {
+    private int calculateHeigth(TreeNode node) {
         if (node == null) return -1;  // Altura de árbol vacío es -1
         return 1 + Math.max(calculateHeigth(node.left), calculateHeigth(node.right));
     }
@@ -117,7 +121,7 @@ public class ServiceBinaryTree {
         return findLevel(tree.root, data, 0);
     }
 
-    private int findLevel(Node node, int data, int level) {
+    private int findLevel(TreeNode node, int data, int level) {
         if (node == null) return -1;
         if (node.data == data) return level;
 
@@ -131,7 +135,7 @@ public class ServiceBinaryTree {
         return countLeavesRecursive(tree.root);
     }
 
-    private int countLeavesRecursive(Node node) {
+    private int countLeavesRecursive(TreeNode node) {
         if (node == null) return 0;
         if (node.left == null && node.right == null) return 1;
         return countLeavesRecursive(node.left) + countLeavesRecursive(node.right);
@@ -139,7 +143,7 @@ public class ServiceBinaryTree {
 
     public Integer getLower() {
         if (tree.root == null) return null;
-        Node current = tree.root;
+        TreeNode current = tree.root;
         while (current.left != null) {
             current = current.left;
         }
@@ -148,7 +152,7 @@ public class ServiceBinaryTree {
 
     public Integer getHigher() {
         if (tree.root == null) return null;
-        Node current = tree.root;
+        TreeNode current = tree.root;
         while (current.right != null) {
             current = current.right;
         }
@@ -159,11 +163,11 @@ public class ServiceBinaryTree {
         List<Integer> result = new ArrayList<>();
         if (tree.root == null) return result;
 
-        Queue<Node> queue = new LinkedList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
         queue.add(tree.root);
 
         while (!queue.isEmpty()) {
-            Node current = queue.poll();
+            TreeNode current = queue.poll();
             result.add(current.data);
 
             if (current.left != null) queue.add(current.left);
@@ -177,7 +181,7 @@ public class ServiceBinaryTree {
         tree.root = eliminateRecursive(tree.root, data);
     }
 
-    private Node eliminateRecursive(Node node, int data) {
+    private TreeNode eliminateRecursive(TreeNode node, int data) {
         if (node == null) return null;
 
         if (data < node.data) {
@@ -189,7 +193,7 @@ public class ServiceBinaryTree {
             if (node.left == null) return node.right;
             else if (node.right == null) return node.left;
 
-            Node lower = findLower(node.right);
+            TreeNode lower = findLower(node.right);
             node.data = lower.data;
             node.right = eliminateRecursive(node.right, lower.data);
         }
@@ -197,7 +201,7 @@ public class ServiceBinaryTree {
         return node;
     }
 
-    private Node findLower(Node node) {
+    private TreeNode findLower(TreeNode node) {
         while (node.left != null) node = node.left;
         return node;
     }

@@ -1,7 +1,7 @@
 package com.example.treeworkshop.controller;
 
 import com.example.treeworkshop.model.BinaryTree;
-import com.example.treeworkshop.model.Node;
+import com.example.treeworkshop.model.TreeNode;
 import com.example.treeworkshop.service.ServiceBinaryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,8 @@ public class TreeController {
 
     //para el dibujo pero no sirve todavia toca mirar el html
     @GetMapping("/estructura")
-    public ResponseEntity<Node> getStructure() {
-        Node root = tree.root;
+    public ResponseEntity<TreeNode> getStructure() {
+        TreeNode root = tree.root;
         return ResponseEntity.ok(root);
     }
 
