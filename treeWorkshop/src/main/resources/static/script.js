@@ -146,12 +146,18 @@ function transformToTreant(node) {
     if (!node) return null;
 
     const current = {
-        text: { name: node.data.toString() },
+        text: {
+            name: node.data.toString()
+        },
         children: []
     };
 
-    if (node.left) current.children.push(transformToTreant(node.left));
-    if (node.right) current.children.push(transformToTreant(node.right));
+    if (node.left) {
+        current.children.push(transformToTreant(node.left));
+    }
+    if (node.right) {
+        current.children.push(transformToTreant(node.right));
+    }
 
     return current;
 }
@@ -179,14 +185,15 @@ function renderTree(treeData) {
 }
 
 function fetchTree() {
-    fetch(`${apiURL}/estructura`)
+    fetch(`${apiURL}/estructuraCompleta`)
         .then(response => response.json())
         .then(data => {
-            console.log("Datos recibidos:", data); // Añade este log
-            renderTree(data);
-        })
-        .catch(error => console.error("Error fetching tree:", error));
+            console.log("Estructura completa:", data);
+            renderTree(data.root); // Solo renderiza el árbol
+        });
 }
+
+
 
 // Cargar visualización inicial
 fetchTree();

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/arbol")
@@ -16,9 +17,9 @@ public class TreeController {
     @Autowired
     private ServiceBinaryTree serviceBinaryTree;
 
-    @GetMapping("/estructura")
-    public ResponseEntity<TreeNode> obtenerEstructura() {
-        return ResponseEntity.ok(serviceBinaryTree.getRoot());
+    @GetMapping("/estructuraCompleta")
+    public ResponseEntity<Map<String, Object>> obtenerEstructuraCompleta() {
+        return ResponseEntity.ok(serviceBinaryTree.getCompleteStructure());
     }
 
     @GetMapping("/estaVacio")

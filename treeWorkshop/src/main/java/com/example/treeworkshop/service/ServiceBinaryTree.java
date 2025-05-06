@@ -5,10 +5,7 @@ import com.example.treeworkshop.model.BinaryTree;
 import com.example.treeworkshop.model.TreeNode;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 @Service
 public class ServiceBinaryTree {
@@ -17,6 +14,24 @@ public class ServiceBinaryTree {
 
     public TreeNode getRoot() {
         return tree.getRoot();
+    }
+
+    public Map<String, Object> getCompleteStructure() {
+        Map<String, Object> structure = new HashMap<>();
+        structure.put("root", buildNodeStructure(tree.getRoot()));
+        structure.put("height", getHeight());
+        structure.put("weight", getWeight());
+        return structure;
+    }
+
+    private Map<String, Object> buildNodeStructure(TreeNode node) {
+        if (node == null) return null;
+        Map<String, Object> nodeMap = new HashMap<>();
+        nodeMap.put("data", node.getData());
+        nodeMap.put("left", buildNodeStructure(node.getLeft()));
+        nodeMap.put("right", buildNodeStructure(node.getRight()));
+        nodeMap.put("isLeaf", node.getLeft() == null && node.getRight() == null);
+        return nodeMap;
     }
 
     public boolean isEmpty(){

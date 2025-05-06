@@ -19,3 +19,40 @@ button:hover {
     font-size: 1.1rem;
     min-height: 60px;
 }
+
+.tree-info {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.tree-info h4 {
+    color: #0d6efd;
+    margin-top: 0;
+}
+
+.node {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #0d6efd;
+    color: white;
+    display: inline-block;
+    margin: 5px;
+    font-size: 14px;
+}
+
+.node.leaf {
+    background: #28a745;
+}
+
+.node.root {
+    background: #dc3545;
+    font-weight: bold;
+}
+
+.connector {
+    stroke: #6c757d;
+    stroke-width: 2;
+}
