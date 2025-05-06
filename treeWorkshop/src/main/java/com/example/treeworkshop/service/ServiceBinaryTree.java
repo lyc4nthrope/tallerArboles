@@ -15,6 +15,10 @@ public class ServiceBinaryTree {
 
     private final BinaryTree tree = new BinaryTree();
 
+    public TreeNode getRoot() {
+        return tree.getRoot();
+    }
+
     public boolean isEmpty(){
         return tree.root == null;
     }
@@ -108,7 +112,7 @@ public class ServiceBinaryTree {
         return 1 + countNodes(node.left) + countNodes(node.right);
     }
 
-    public int getHeigth() {
+    public int getHeight() {
         return calculateHeigth(tree.root);
     }
 
