@@ -146,7 +146,7 @@ function transformToTreant(node) {
     if (!node) return null;
 
     const current = {
-        text: { name: node.value.toString() },
+        text: { name: node.data.toString() },
         children: []
     };
 
@@ -182,8 +182,10 @@ function fetchTree() {
     fetch(`${apiURL}/estructura`)
         .then(response => response.json())
         .then(data => {
+            console.log("Datos recibidos:", data); // Añade este log
             renderTree(data);
-        });
+        })
+        .catch(error => console.error("Error fetching tree:", error));
 }
 
 // Cargar visualización inicial
