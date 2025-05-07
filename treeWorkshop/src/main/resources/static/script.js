@@ -141,7 +141,7 @@ function eliminateTree() {
 }
 
 // --------------------- VISUALIZACIÓN DEL ÁRBOL ----------------------
-
+//xdddd
 function transformToTreant(node) {
     if (!node) return null;
 
